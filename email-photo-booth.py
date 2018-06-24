@@ -97,6 +97,6 @@ try:
     else:
         logger.debug('no photo requests')
 except:
-    sys.exit("Unexpected error: " + sys.exc_info()[0])
+    print("Unexpected error: ", sys.exc_info())
 
 logger.debug('email-photo-booth finished')
