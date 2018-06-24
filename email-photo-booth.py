@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 
-import sys
-import logging
 import argparse
+import logging
+import sys
 
 
 def check_photo_request(hostname, username, password, boss):
@@ -32,9 +32,10 @@ def check_photo_request(hostname, username, password, boss):
     return command_photo
 
 
-def take_picture(image_file):
+def take_picture(image_file, rotation):
    from picamera import PiCamera
    cam = PiCamera()
+   cam.rotation = rotation
    cam.capture(image_file)
 
 
@@ -69,6 +70,7 @@ parser.add_argument('--username', nargs=1, type=str, required=True, help='userna
 parser.add_argument('--password', nargs=1, type=str, required=True, help='password')
 parser.add_argument('--boss', nargs=1, type=str, required=True, help='Boss E-mail')
 parser.add_argument('--assistant', nargs=1, type=str, required=True, help='Assistant E-mail')
+parser.add_argument('--rotation', nargs=1, type=int, required=False, default=0, help='Photo Rotation Degree')
 args = parser.parse_args()
 imagefile = args.imagefile[0]
 imaphost = args.imaphost[0]
@@ -77,6 +79,7 @@ username = args.username[0]
 password = args.password[0]
 boss = args.boss[0]
 assistant = args.assistant[0]
+rotation = args.rotation[0]
 
 logging.basicConfig(format='%(asctime)-15s %(message)s')
 logger = logging.getLogger('email-photo-booth')
@@ -86,7 +89,7 @@ logger.debug('email-photo-booth started')
 try:
     if check_photo_request(imaphost, username, password, boss):
         logger.debug('trying to take photo')
-        take_picture(imagefile)
+        take_picture(imagefile, rotation)
         logger.debug('photo taken to ' + imagefile)
         logger.debug('trying to read photo from ' + imagefile)
         image_data = read_image_data(imagefile)
@@ -97,6 +100,6 @@ try:
     else:
         logger.debug('no photo requests')
 except:
-    print("Unexpected error: ", sys.exc_info())
+    sys.exit("Unexpected error: " + str(sys.exc_info()))
 
 logger.debug('email-photo-booth finished')
