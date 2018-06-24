@@ -79,7 +79,7 @@ username = args.username[0]
 password = args.password[0]
 boss = args.boss[0]
 assistant = args.assistant[0]
-rotation = int(args.rotation)
+rotation = int(args.rotation[0])
 
 logging.basicConfig(format='%(asctime)-15s %(message)s')
 logger = logging.getLogger('email-photo-booth')
