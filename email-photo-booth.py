@@ -32,11 +32,11 @@ def check_photo_request(hostname, username, password, boss):
     return command_photo
 
 
-# def take_picture(image_file, rotation):
-#    from picamera import PiCamera
-#    cam = PiCamera()
-#    cam.rotation = rotation
-#    cam.capture(image_file)
+def take_picture(image_file, rotation):
+    from picamera import PiCamera
+    cam = PiCamera()
+    cam.rotation = rotation
+    cam.capture(image_file)
 
 
 def read_image_data(file_path):
@@ -89,7 +89,7 @@ logger.debug('email-photo-booth started')
 try:
     if check_photo_request(imaphost, username, password, boss):
         logger.debug('trying to take photo')
-        # take_picture(imagefile, rotation)
+        take_picture(imagefile, rotation)
         logger.debug('photo taken to ' + imagefile)
         logger.debug('trying to read photo from ' + imagefile)
         image_data = read_image_data(imagefile)
