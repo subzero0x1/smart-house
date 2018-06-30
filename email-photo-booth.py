@@ -32,7 +32,7 @@ def check_photo_request(hostname, username, password, boss):
     return command_photo
 
 
-def take_picture(image_file, rotation):
+def take_picture(image_file, image_rotation):
     from picamera import PiCamera
     from pathlib import Path
     import os
@@ -40,7 +40,7 @@ def take_picture(image_file, rotation):
     if file.exists():
         os.remove(image_file)
     cam = PiCamera()
-    cam.rotation = rotation
+    cam.rotation = image_rotation
     cam.capture(image_file)
 
 
